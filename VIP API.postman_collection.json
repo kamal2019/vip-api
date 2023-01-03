@@ -1,0 +1,1164 @@
+{
+	"info": {
+		"_postman_id": "e8f41aee-25f5-4494-9eeb-708eb9cd7a1d",
+		"name": "VIP API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().tokens.access.token)",
+									"pm.environment.set(\"jwtRef\", pm.response.json().tokens.refresh.token)",
+									"pm.environment.set(\"id\", pm.response.json().user.id)",
+									"pm.environment.set(\"name\", pm.response.json().user.name)",
+									"pm.environment.set(\"email\", pm.response.json().user.email)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{jwtRef}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"dummy\",\n    \"email\": \"admin1@example.com\",\n    \"password\": \"password1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "bio",
+									"value": "I am a test user",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "9862299137",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Photo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": "/home/sagyam/Desktop/male-female-dataset/train/male/avatar-82695487d8da7fc042d86b9325e4fc8c.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/profilepic/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"profilepic",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/62b6963d4294d0004be76231",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"62b6963d4294d0004be76231"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "newpassword1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/forgot-password?token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"forgot-password"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@example.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/forgot-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"admin\",\n    \"email\": \"admin@example.com\",\n    \"password\": \"password1\",\n    \"role\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/62ab43d39c5cec0ea70021b0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"62ab43d39c5cec0ea70021b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/62aaa97ab89777002f2cc106",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"62aaa97ab89777002f2cc106"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}/users/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Special Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "sangem",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "fake2@example.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "isEmailVerified",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "fsad",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": "admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "coins",
+									"value": "10",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "averageRating",
+									"value": "4.4",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/{{id}}/special",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}",
+								"special"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Get all posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "date:desc",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all posts by a user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/user/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"{{id}}"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "date:desc",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/62b15fc6efe0240796037981",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"62b15fc6efe0240796037981"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Test Post 4",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Loream Ispusm dolor ismnet 4",
+									"type": "text"
+								},
+								{
+									"key": "authorId",
+									"value": "{{id}}",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2019-05-18T16:00:00Z",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "01:53",
+									"type": "text"
+								},
+								{
+									"key": "venue",
+									"value": "somewhere4",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/sagyam/Pictures/pokemon_wallpaper___spheal_by_kennedyzak_d5vb6u0.png"
+								},
+								{
+									"key": "views",
+									"value": "14",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "searchTerm",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/posts/search",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"search"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "views",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/like/62ad5cae48f55101202cf0cf",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"like",
+								"62ad5cae48f55101202cf0cf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlike Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/unlike/62ab64b26f11c42d715e6769",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"unlike",
+								"62ab64b26f11c42d715e6769"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "New Title",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "New Content",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "authorId",
+									"value": "{{id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/posts/62b15fc6efe0240796037981",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"62b15fc6efe0240796037981"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts/62ab3cdf4f91ba0d1df177f0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"62ab3cdf4f91ba0d1df177f0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Certificates",
+			"item": [
+				{
+					"name": "Create new Certificate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "givenTo",
+									"value": "{{id}}",
+									"type": "text"
+								},
+								{
+									"key": "givenBy",
+									"value": "{{id}}",
+									"type": "text"
+								},
+								{
+									"key": "givenFor",
+									"value": "62bb193d5db44e0281922585",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/sagyam/Pictures/pokemon_wallpaper___spheal_by_kennedyzak_d5vb6u0.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/certificates",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Certificate",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/certificates/62bd22f91061600035df4efc",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"certificates",
+								"62bd22f91061600035df4efc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all certificates of a user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/certificates/user/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"certificates",
+								"user",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get certificate by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/certificates/62ab1f2d60b5b605e6a8510b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"certificates",
+								"62ab1f2d60b5b605e6a8510b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all certificates issued by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/certificates/admin/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"certificates",
+								"admin",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get all Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Participation",
+			"item": [
+				{
+					"name": "Create a Participation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userId",
+									"value": "{{id}}",
+									"type": "text"
+								},
+								{
+									"key": "postId",
+									"value": "62b15fc6efe0240796037981",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/sagyam/Pictures/186789.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/participation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve/Reject",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "status",
+									"value": "accepted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/participation/62bb2fc39381450308c46337",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation",
+								"62bb2fc39381450308c46337"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all participations for a user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/participation/user/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation",
+								"user",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get participation by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/participation/62bb2fc39381450308c46337",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation",
+								"62bb2fc39381450308c46337"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all participations for a post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/participation/post/62ab64b26f11c42d715e6769",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation",
+								"post",
+								"62ab64b26f11c42d715e6769"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Participation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/participation/62bb2ee89381450308c46314",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation",
+								"62bb2ee89381450308c46314"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all participation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/participation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"participation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
