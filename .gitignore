@@ -1,6 +1,14 @@
 # Dependencies
 node_modules
-uploads
+
+# JetBrains IDEs
+.idea
+
+# Ignore all images
+*.png
+*.jpg
+*.jpeg
+*.webp
 
 # yarn error logs
 yarn-error.log
